@@ -1,0 +1,9 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div>
+    {% for trade in trades %}
+        <p>{{trade.ticker}}: ${{trade.p_and_l}} on {{trade.date}}</p>
+    {% endfor %}
+</div>
+{% endblock content %}
