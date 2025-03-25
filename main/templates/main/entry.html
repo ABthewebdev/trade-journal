@@ -1,0 +1,12 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<form action="" method="post">
+    {% csrf_token %}
+    <ul class="create">
+        <p>Create new reason for entry</p>
+        {{entry.as_p}}
+        <button type="submit">Submit</button>
+    </ul>
+</form>
+{% endblock content %}

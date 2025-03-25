@@ -1,0 +1,30 @@
+body {
+  background-color: black;
+}
+h1,
+h2,
+h3,
+p,
+span,
+li,
+a {
+  color: white;
+}
+ul,
+li {
+  list-style: none;
+}
+.form_ul {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+.create {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+}
+.gap_list {
+  display: flex;
+  gap: 1em;
+}

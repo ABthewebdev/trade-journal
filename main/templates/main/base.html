@@ -1,28 +1,52 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <style>
-        body {
-            background-color: black;
+        .trades_div {
+            background-color: #424141;
+            padding: 8em 10em;
+            margin-left: 2em;
+            margin-right: 2em;
+            border-radius: 6px;
         }
-        h1, h2, p, span, a {
-            color: #fff;
+        .trades_div ul {
+            gap: 1em;
+        }
+        form {
+            display: flex;
+            align-content: center;
+        }
+        form .button {
+            height: 40px;
+            width: 100px;
+        }
+        .rounded {
+            border-radius: 6px;
+        }
+        .text-center {
+            text-align: center;
         }
     </style>
 </head>
 <body>
     {% if user.is_authenticated %}
     <header>
-        <form action="{% url 'logout' %}" method="post">
-            {% csrf_token %}
-            <button type="submit">
-                Logout
-            </button>
-        </form>
-        <a href="/trade">Create new trade</a>
+        <div class="gap_list">
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
+            <!-- <a href="/profile">My trades</a> -->
+            <a href="/trade">Create new trade</a>
+            <a href="/">Home</a>
+            <a href="/entry">Create entry</a>
+            <a href="/exit">Create exit</a>
+        </div>
     </header>
     {% block content %}{% endblock content %}
     {% else %}

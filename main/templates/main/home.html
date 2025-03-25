@@ -2,8 +2,8 @@
 
 {% block content %}
 <div>
-    {% for trade in trades %}
-        <p>{{trade.ticker}}: ${{trade.p_and_l}} on {{trade.date}}</p>
+    {% for date in unique_dates %}
+        <a href="/{{ date|date:'Y-m-d' }}"><h3>{{ date }}</h3></a>
     {% endfor %}
 </div>
 {% endblock content %}
