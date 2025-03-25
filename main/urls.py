@@ -6,5 +6,6 @@ urlpatterns = [
     path('trade/', views.trade, name='trade'),
     path('<str:date>/', views.profile, name='profile'),
     path('entry/', views.entry, name='entry'),
-    path('exit/', views.exit, name='exit')
+    path('exit/', views.exit, name='exit'),
+    path('debug-hosts/', views.debug_allowed_hosts)
 ]

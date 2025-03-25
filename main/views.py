@@ -1,8 +1,12 @@
 from django.shortcuts import render, redirect
 from .models import Trade, Enter_Trade, Exit_Trade
 from .forms import CreateTrade, CreateEntry, CreateExit
+from django.http import JsonResponse
+from django.conf import settings
 
-# Create your views here.
+def debug_allowed_hosts(request):
+    return JsonResponse({"ALLOWED_HOSTS": settings.ALLOWED_HOSTS})
+
 def home(request):
     unique_dates = Trade.objects.values_list('date', flat=True).distinct().order_by('date')
     return render(request, 'main/home.html', {'unique_dates': unique_dates})
