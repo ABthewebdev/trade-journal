@@ -1,9 +1,5 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
-<div>
-    {% for date in unique_dates %}
-        <a href="/{{ date|date:'Y-m-d' }}"><h3>{{ date }}</h3></a>
-    {% endfor %}
-</div>
+<h1>Home</h1>
 {% endblock content %}
