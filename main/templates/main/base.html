@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="shortcut icon" href="{% static 'favicon.png' %}">
     <style>
         body {
         background-color: black;
@@ -80,7 +81,7 @@
                 {% csrf_token %}
                 <button type="submit">Logout</button>
             </form>
-            <a href="/dates">Trade dates</a>
+            <a href="/profile">My profile</a>
             <a href="/trade">Create new trade</a>
             <a href="/">Home</a>
             <a href="/entry">Create entry</a>

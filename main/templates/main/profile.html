@@ -1,53 +1,12 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
-<div class="trades_profile_div">
-    {% for trade in filtered_trades %}
-    <div>
-        <h2>
-            {{trade.ticker}}: ${{trade.p_and_l}} 
-            {% if trade.profit == True %}
-            profit
-            {% elif trade.loss == True %}
-            loss
-            {% endif %}
-        </h2>
-        <h2>
-            {% if trade.long == True %}
-            Went long
-            {% elif trade.short == True %}
-            Went short
-            {% endif %}
-            with {{trade.quantity}}
-            at {{trade.entry_time}}
-        </h2>
-        <h2>Opened at {{trade.entry_price}}</h2>
-        {% if trade.trim1 != None %}
-        <h2>Trimmed at {{trade.trim1}}</h2>
-        {% endif %}
-        {% if trade.trim2 != None %}
-        <h2>Trimmed at {{trade.trim2}}</h2>
-        {% endif %}
-        <h2>Closed at {{trade.exit_price}}</h2>
-        <div>
-            <h2>Reasons for opening are: </h2>
-            <ol>
-                {% for reason in trade.reasons_entry.all %}
-                    <li><h2>{{reason.reason}}</h2></li>
-                {% endfor %}
-            </ol>
-        </div>
-        <div>
-            <h2>Reasons for closing are: </h2>
-            <ol>
-                {% for reason in trade.reasons_exit.all %}
-                    <li><h2>{{reason.reason}}</h2></li>
-                {% endfor %}
-            </ol>
-        </div>
-        <img src="{{ trade.picture1.url }}" alt="Trade Image">
-
-    </div>
+<div>
+    <h1 class="text-center">Your best strategies</h1>
+</div>
+<div>
+    {% for date in unique_dates %}
+        <a href="/{{ date|date:'Y-m-d' }}"><h3>{{ date }}</h3></a>
     {% endfor %}
 </div>
 {% endblock content %}

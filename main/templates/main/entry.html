@@ -1,11 +1,11 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
-<form action="" method="post">
+<form action="" method="POST">
     {% csrf_token %}
     <ul class="create">
         <p>Create new reason for entry</p>
-        {{entry.as_p}}
+        {{form.as_p}}
         <button type="submit">Submit</button>
     </ul>
 </form>
