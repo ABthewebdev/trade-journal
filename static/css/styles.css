@@ -1,23 +1,30 @@
-body {
+#body {
   background-color: black;
 }
 h1,
 h2,
 h3,
+h4,
+h5,
 p,
 span,
 li,
-a {
+a,
+label {
   color: white;
+  text-decoration: none;
+  border: none !important;
 }
+.mb-6 {
+  margin-bottom: 6em;
+}
+
 ul,
 li {
   list-style: none;
 }
-.form_ul {
-  display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
+a:hover {
+  opacity: 0.8;
 }
 .create {
   display: flex;
@@ -28,11 +35,129 @@ li {
   display: flex;
   gap: 1em;
 }
-.trades_profile_div {
-  display: flex;
-  flex-wrap: wrap;
+
+.image {
+  border-radius: 0.35em;
+  border: 0;
+  display: inline-block;
+  /* position: relative; */
 }
-.trades_profile_div div {
-  background-color: #424141;
-  border-radius: 6px;
+
+.image.thumb {
+  text-align: center;
+}
+
+.image.thumb:after {
+  -moz-transition: opacity 0.2s ease-in-out;
+  -webkit-transition: opacity 0.2s ease-in-out;
+  -ms-transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.2s ease-in-out;
+  border-radius: 0.35em;
+  border: solid 3px rgba(255, 255, 255, 0.5);
+  color: #fff;
+  content: "View";
+  display: inline-block;
+  font-size: 0.8em;
+  font-weight: 400;
+  left: 50%;
+  line-height: 2.25em;
+  margin: -1.25em 0 0 -3em;
+  opacity: 0;
+  padding: 0 1.5em;
+  position: absolute;
+  text-align: center;
+  text-decoration: none;
+  top: 50%;
+  white-space: nowrap;
+}
+
+.image.thumb:hover:after {
+  opacity: 1;
+}
+
+.image.thumb:hover:before {
+  background: url("/static/img/chart.png"), url("/static/img/chart.png");
+  opacity: 1;
+}
+
+.image img {
+  border-radius: 0.35em;
+  display: block;
+}
+
+.image.left {
+  float: left;
+  margin: 0 1.5em 1em 0;
+  top: 0.25em;
+}
+
+.image.right {
+  float: right;
+  margin: 0 0 1em 1.5em;
+  top: 0.25em;
+}
+
+.image.left,
+.image.right {
+  max-width: 40%;
+}
+
+.image.left img,
+.image.right img {
+  width: 100%;
+}
+
+.image.fit {
+  display: block;
+  margin: 0 0 2em 0;
+  width: 100%;
+}
+
+.image.fit img {
+  width: 100%;
+}
+
+.image.avatar {
+  border-radius: 100%;
+}
+
+.image.avatar:before {
+  display: none;
+}
+
+.image.avatar img {
+  border-radius: 100%;
+  width: 100%;
+}
+
+/* Styling for the thumbnails */
+.card-img-top {
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.card-img-top:hover {
+  opacity: 0.7;
+}
+
+/* The Modal (hidden by default) */
+.modal {
+  position: fixed;
+  z-index: 1000; /* High z-index to be on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+  display: flex;
+  display: none; /* Hidden initially */
+  align-items: center;
+  justify-content: center;
+}
+
+/* Modal Content */
+.modal-content {
+  max-width: 80%;
+  max-height: 80%;
+  border-radius: 8px;
 }

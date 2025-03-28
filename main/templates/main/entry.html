@@ -3,10 +3,10 @@
 {% block content %}
 <form action="" method="POST">
     {% csrf_token %}
-    <ul class="create">
+    <ul class="d-flex justify-content-center gap-2">
         <p>Create new reason for entry</p>
-        {{form.as_p}}
-        <button type="submit">Submit</button>
+        {{form.as_ul}}
+        <button class="btn btn-primary" type="submit">Submit</button>
     </ul>
 </form>
 {% endblock content %}

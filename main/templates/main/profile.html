@@ -1,10 +1,26 @@
 {% extends 'main/base.html' %}
+{% load custom_filters %}
 
 {% block content %}
 <div>
-    <h1 class="text-center">Your best strategies</h1>
+    <h1 class="text-center">Overall P&L</h1>
+    <div class="text-center mb-6">
+        <h2>Win percentage: {{win_percentage}}%</h2>
+        <h2>Average win: {{average_win}}</h2>
+        <h2>Average loss: {{average_loss}}</h2>
+        <h2>Totals: {{total_p_and_l}}</h2>
+    </div>
+    <div class="text-center">
+        <h2>All of your setups</h2>
+        <ul class="d-flex flex-row flex-wrap list-group">
+            {% for strategy in strategies %}
+                <li class="list-group-item bg-black" style="font-weight: bolder; font-size: larger;"><a href="/strategies/{{strategy.reason}}">{{ strategy.reason }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>
-<div>
+<h2 class="text-center">Trade dates</h2>
+<div class="d-flex flex-row flex-wrap gap-4">
     {% for date in unique_dates %}
         <a href="/{{ date|date:'Y-m-d' }}"><h3>{{ date }}</h3></a>
     {% endfor %}
