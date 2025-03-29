@@ -3,18 +3,27 @@
 
 {% block content %}
 <div>
-    <h1 class="text-center">Overall P&L</h1>
-    <div class="text-center mb-6">
-        <h2>Win percentage: {{win_percentage}}%</h2>
-        <h2>Average win: {{average_win}}</h2>
-        <h2>Average loss: {{average_loss}}</h2>
-        <h2>Totals: {{total_p_and_l}}</h2>
+    <div class="d-flex justify-content-evenly mb-6">
+        <div>
+            <h1>Futures P&L</h1>
+            <h2>Win percentage: {{futures_percentage}}%</h2>
+            <h2>Average win: {{average_futures_win}}</h2>
+            <h2>Average loss: {{average_futures_loss}}</h2>
+            <h2>Totals: {{futures_p_and_l}}</h2>
+        </div>
+        <div>
+            <h1>Options P&L</h1>
+            <h2>Win percentage: {{options_percentage}}%</h2>
+            <h2>Average win: {{average_options_win}}</h2>
+            <h2>Average loss: {{average_options_loss}}</h2>
+            <h2>Totals: {{options_p_and_l}}</h2>
+        </div>
     </div>
     <div class="text-center">
         <h2>All of your setups</h2>
         <ul class="d-flex flex-row flex-wrap list-group">
             {% for strategy in strategies %}
-                <li class="list-group-item bg-black" style="font-weight: bolder; font-size: larger;"><a href="/strategies/{{strategy.reason}}">{{ strategy.reason }}</a></li>
+                <li class="list-group-item bg-black" style="font-weight: bolder; font-size: larger;"><a href="/setups/{{strategy.reason}}">{{ strategy.reason }}</a></li>
             {% endfor %}
         </ul>
     </div>

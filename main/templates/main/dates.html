@@ -1,30 +1,50 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
-<div class="row row-cols-1 row-cols-md-2 g-4">
-    {% for trade in filtered_trades %}
+<div class="d-flex flex-column align-items-center mb-6">
+    <h2>{{date}}</h2>
+    <h3>Day's P&L: {{total_profit}}</h3>
+    {% if total_trades == 1 %}
+    <h3>Took 1 trade</h3>
+    {% else %}
+    <h3>Took {{total_trades}} trades</h3>
+    {% endif %}
+</div>
+<h2 class="text-center">Futures trades</h2>
+<section class="row row-cols-1 row-cols-md-2 g-4">
+    {% for trade in filtered_futures_trades %}
     <div class="col">
-        <div class="card bg-secondary">
-            {% if trade.picture1.url != None %}
-            <div style="padding: 0 15em;"><img class="card-img-top image" onclick="openModal('{{trade.picture1.url}}')" src="{{trade.picture1.url}}" alt="Trade Image" height="250px"></div>
-            <div id="imageModal" class="modal" onclick="closeModal()">
-                <img id="modalImage" src="{{trade.picture1.url}}" class="modal-content">
+        <div class="card bg-dark mb-3 text-center">
+            <div class="d-flex" style="padding: 0 15em;">
+                {% if trade.picture1.url != None %}
+                    {% if trade.picture2.url != None %}
+                    <img class="image" onclick="openModal('{{trade.picture1.url}}')" src="{{trade.picture1.url}}" alt="Trade Image" height="250px" width="229px">
+                    <div id="imageModal" class="modal" onclick="closeModal()">
+                        <img id="modalImage" src="{{trade.picture1.url}}" class="modal-content">
+                    </div>
+                    <img class="image" src="{{trade.picture2.url}}" alt="Trade Image" height="250px" width="229px">
+                    {% else %}
+                    <img class="card-img-top image" onclick="openModal('{{trade.picture1.url}}')" src="{{trade.picture1.url}}" alt="Trade Image" height="250px">
+                    <div id="imageModal" class="modal" onclick="closeModal()">
+                        <img id="modalImage" src="{{trade.picture1.url}}" class="modal-content">
+                    </div>
+                    {% endif %}
+                {% endif %}
             </div>
-            {% endif %}
             <div class="card-body">
                 <h5 class="card-text">
                     {{trade.ticker}}: ${{trade.p_and_l}}
                     {% if trade.profit == True %}
-                    profit
+                        profit
                     {% elif trade.loss == True %}
-                    loss
+                        loss
                     {% endif %}
                 </h5>
                 <h5 class="card-text">
                     {% if trade.long == True %}
-                    Went long
+                        Went long
                     {% elif trade.short == True %}
-                    Went short
+                        Went short
                     {% endif %}
                     with {{trade.quantity}}
                     at {{trade.entry_time}}
@@ -57,5 +77,73 @@
         </div>
     </div>
     {% endfor %}
-</div>
+</section>
+<h2 class="text-center">Options trades</h2>
+<section class="row row-cols-1 row-cols-md-2">
+    {% for trade in filtered_options_trades %}
+    <div class="col">
+        <div class="card bg-dark mb-3 text-center">
+            <div class="d-flex" style="padding: 0 15em;">
+                {% if trade.picture1.url != None %}
+                    {% if trade.picture2.url != None %}
+                    <img class="image" onclick="openModal('{{trade.picture1.url}}')" src="{{trade.picture1.url}}" alt="Trade Image" height="250px" width="229px">
+                    <div id="imageModal" class="modal" onclick="closeModal()">
+                        <img id="modalImage" src="{{trade.picture1.url}}" class="modal-content">
+                    </div>
+                    <img class="image" onclick="openModal('{{trade.picture1.url}}')" src="{{trade.picture2.url}}" alt="Trade Image" height="250px" width="229px">
+                    {% else %}
+                    <img class="card-img-top image" onclick="openModal('{{trade.picture1.url}}')" src="{{trade.picture1.url}}" alt="Trade Image" height="250px">
+                    <div id="imageModal" class="modal" onclick="closeModal()">
+                        <img id="modalImage" src="{{trade.picture1.url}}" class="modal-content">
+                    </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <h5 class="card-text">
+                    {{trade.ticker}}: ${{trade.p_and_l}}
+                    {% if trade.profit == True %}
+                        profit
+                    {% elif trade.loss == True %}
+                        loss
+                    {% endif %}
+                </h5>
+                <h5 class="card-text">
+                    Bought {{trade.quantity}}
+                    {% if trade.call == True %}
+                        calls
+                    {% elif trade.pull == True %}
+                        puts
+                    {% endif %}
+                    at {{trade.option_price}}
+                </h5>
+                <h4 class="card-text">Bought with stock at {{trade.stock_price}} at {{trade.entry_time}}</h4>
+                {% if trade.trim1 != None %}
+                    <h5>Trimmed at {{trade.trim1}}</h5>
+                {% endif %}
+                {% if trade.trim2 != None %}
+                    <h5>Trimmed at {{trade.trim2}}</h5>
+                {% endif %}
+                <h5 class="card-text">Closed at {{trade.exit_option_price}} at {{trade.exit_time}}</h5>
+            </div>
+            <div>
+                <h4 class="card-text">Reasons for opening</h4>
+                <ol>
+                    {% for reason in trade.reasons_entry.all %}
+                        <li><h5 class="card-text">{{reason.reason}}</h5></li>
+                    {% endfor %}
+                </ol>
+            </div>
+            <div>
+                <h4>Reasons for closing</h4>
+                <ol>
+                    {% for reason in trade.reasons_exit.all %}
+                        <li><h5 class="card-text">{{reason.reason}}</h5></li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</section>
 {% endblock content %}

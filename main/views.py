@@ -1,62 +1,128 @@
 from django.shortcuts import render, redirect
-from .models import Trade, Enter_Trade, Exit_Trade
-from .forms import CreateTrade, CreateEntry, CreateExit
-from django.http import HttpResponse
-from datetime import date
+from .models import Trade, Enter_Trade, Exit_Trade, OptionsTrade
+from .forms import CreateFutures, CreateEntry, CreateExit, CreateOptions
+import random
 from decimal import Decimal
 
 def home(request):
     user = request.user
-    trades = user.trade_set.all()
-    return render(request, 'main/home.html', {})
-
-def dates(request, date_str):  # Rename date to date_str initially
-    user = request.user
-    trades = user.trade_set.all()
-    filtered_trades = trades.filter(date=date_str)
-    return render(request, 'main/dates.html', {"filtered_trades": filtered_trades})
-
+    class Quote:
+        def __init__(self, quote, author):
+            self.quote = quote
+            self.author = author
+    quotes = [
+        Quote("Get a trade journal", "Hitler"),
+        Quote("Thou shall not take pennies in profits and benji's in losses", "Shakespeare"),
+        Quote("Let's bleed em dry", "AMC shareholders to the shorts"),
+        Quote("You're fired", "Trump to the bulls"),
+        Quote("What I've done now is I've changed and manipulated time", "Some guy who gets 21 days a week"),
+        Quote("I just buy the stop losses of the stupid retail traders", "The hedgies"),
+        Quote("Everyone has two lives, the first one is trading without a stop loss, the second one is for actually making money", "Confucious"),
+        Quote("Don't get greedy, take your profits where you can get them", "A trader who loses money"),
+        Quote("There is a time to go long, a time to go short, and a time to go fishing", "Jesse Livermore"),
+        Quote("Derivatives are financial weapons of mass money duplication", "Bill Hwang"),
+        Quote("The best way to predict the future is to manipulate it", "JPow"),
+        Quote("Risk comes from not knowing what you're doing, which is why we just HODL", "Me holding my NVDL shares")
+    ]
+    return render(request, 'main/home.html', {"quote": quotes[random.randint(0, len(quotes) - 1)]})
 
 def profile(request):
     user = request.user
     unique_dates = Trade.objects.values_list('date', flat=True).distinct().order_by('date')
     strategies = Enter_Trade.objects.filter(user = user)
-    trades = user.trade_set.all()
     entry_reasons_profit = {strat: strat.profit for strat in strategies}
-    wins = 0
-    total_win = Decimal(0.00)
-    losses = 0
-    total_loss = Decimal(0.00)
 
+    # All stuff for futures trading
+    futures_trades = user.trade_set.all()
+    futures_wins = 0
+    futures_total_win = Decimal(0.00)
+    futures_losses = 0
+    futures_total_loss = Decimal(0.00)
     # Add Trade.p_and_l to the Entry_Reason profit if it appears in reasons_entry
-    for trade in trades:
+    for trade in futures_trades:
         if trade.profit:
-            wins += 1
-            total_win += trade.p_and_l
+            futures_wins += 1
+            futures_total_win += trade.p_and_l
         else:
-            losses += 1
-            total_loss += trade.p_and_l
+            futures_losses += 1
+            futures_total_loss += trade.p_and_l
+    futures_p_and_l = futures_total_win - futures_total_loss
+    futures_percentage = (futures_wins / len(futures_trades)) * 100
+    average_futures_win = futures_total_win / futures_wins if futures_wins > 0 else Decimal("0.00")
+    average_futures_loss = futures_total_loss / futures_losses if futures_losses > 0 else Decimal("0.00")
 
-    total_p_and_l = total_win - total_loss
-    win_percentage = (wins / len(trades)) * 100
-    average_win = total_win / wins if wins > 0 else Decimal("0.00")
-    average_loss = total_loss / losses if losses > 0 else Decimal("0.00")
+    # All stuff for options trading
+    options_wins = 0
+    options_losses = 0
+    options_total_win = Decimal(0.00)
+    options_total_loss = Decimal(0.00)
+    options_trades = OptionsTrade.objects.filter(user = user)
+    for trade in options_trades:
+        if trade.profit:
+            options_wins += 1
+            options_total_win += trade.p_and_l
+        else:
+            options_losses += 1
+            options_total_loss += trade.p_and_l
+    options_p_and_l = options_total_win - options_total_loss
+    options_percentage = (options_wins / len(options_trades)) * 100
+    average_options_win = options_total_win / options_wins if options_wins > 0 else Decimal("0.00")
+    average_options_loss = options_total_loss / options_losses if options_losses > 0 else Decimal("0.00")
+            
     context = {
         "strategies": strategies,
         "unique_dates": unique_dates,
         "Trade": Trade,
-        "trades": trades,
+        "futures_trades": futures_trades,
         "entry_reasons_profit": entry_reasons_profit,
-        "win_percentage": win_percentage,
-        "average_win": average_win,
-        "average_loss": average_loss,
-        "total_p_and_l": total_p_and_l
+        "futures_percentage": futures_percentage,
+        "average_futures_win": average_futures_win,
+        "average_futures_loss": average_futures_loss,
+        "futures_p_and_l": futures_p_and_l,
+        "options_p_and_l": options_p_and_l,
+        "options_percentage": options_percentage,
+        "average_options_win": average_options_win,
+        "average_options_loss": average_options_loss
     }
     return render(request, 'main/profile.html', context)
 
+def dates(request, date_str):  # Rename date to date_str initially
+    user = request.user
+    futures_trades = user.trade_set.all()
+    options_trades = OptionsTrade.objects.filter(user = user)
+    filtered_options_trades = options_trades.filter(date=date_str)
+    filtered_futures_trades = futures_trades.filter(date=date_str)
+    futures_profit = sum(trade.p_and_l for trade in filtered_futures_trades)
+    options_profit = sum(trade.p_and_l for trade in options_trades)
+    total_profit = futures_profit +  options_profit
+    date = date_str
+    total_trades = filtered_futures_trades.count() + filtered_options_trades.count()
+    futures_percentage = Decimal(0.00)
+    futures_wins = 0
+    options_wins = 0
+    for trade in filtered_futures_trades:
+        if trade.profit:
+            futures_wins += 1
+    for trade in filtered_options_trades:
+        if trade.profit:
+            options_wins += 1
+    wins = futures_wins + options_wins
+    win_percentage = wins / total_trades
+
+    context = {
+        "filtered_futures_trades": filtered_futures_trades,
+        "filtered_options_trades": filtered_options_trades,
+        "total_profit": total_profit,
+        "date": date,
+        "total_trades": total_trades,
+        "win_percentage": win_percentage
+    }
+    return render(request, 'main/dates.html', context)
+
+
 def trade(request):
     if request.method == 'POST':
-        form = CreateTrade(request.POST, user=request.user)
+        form = CreateFutures(request.POST, user=request.user)
         if form.is_valid():
             trade = form.save(commit=False)
             trade.user = request.user  # Assign the user before saving
@@ -64,14 +130,13 @@ def trade(request):
             form.save_m2m()  # Save many-to-many fields if any
             return redirect('trade')  # Redirect to a success page
     else:
-        form = CreateTrade(user=request.user)
+        form = CreateFutures(user=request.user)
 
     return render(request, 'main/trade.html', {'form': form})
 
 
 def entry(request):
     user = request.user
-    print(user)
     if request.method == "POST":
         form = CreateEntry(request.POST)
         if form.is_valid():
@@ -96,24 +161,73 @@ def exit(request):
 
     return render(request, 'main/exit.html', {"form": form})
 
-def strategy(request, strategy):
-    strategy = Enter_Trade.objects.get(reason = strategy)
+def setup(request, setup):
+    setup = Enter_Trade.objects.get(reason = setup)
     user = request.user
-    trades = user.trade_set.all()
-    profit = sum(trade.p_and_l for trade in trades if strategy in trade.reasons_entry.all())
-    strategies = Enter_Trade.objects.filter(user = user)
-    count = 0
-    pictures = []
-    for trade in trades:
-        for strat in strategies:
-            if strat in trade.reasons_entry.all():
-                count += 1
-                pictures.append(trade.picture1)
+    # All futures tradng stuff
+    futures_trades = user.trade_set.all()
+    futures_profits = Decimal(0.00)
+    futures_losses = Decimal(0.00)
+    futures_pictures = []
+    futures_count = 0
+    futures_wins = 0
+    for trade in futures_trades:
+        if setup in trade.reasons_entry.all():
+            futures_count += 1
+            futures_pictures.append(trade)
+            if trade.profit:
+                futures_wins += 1
+                futures_profits += trade.p_and_l
+            else:
+                futures_losses += trade.p_and_l
+    
+    # All options trading stuff
+    options_profits = Decimal(0.00)
+    options_losses = Decimal(0.00)
+    options_pictures = []
+    options_trades = OptionsTrade.objects.filter(user = user)
+    options_count = 0
+    options_wins = 0
+    for trade in options_trades:
+        if setup in trade.reasons_entry.all():
+            options_count += 1
+            options_pictures.append(trade)
+            if trade.profit:
+                options_wins += 1
+                options_profits += trade.p_and_l
+            else:
+                options_losses += trade.p_and_l
+    
+    total_profit = options_profits + futures_profits - options_losses - futures_losses
+    total_trades = futures_count + options_count
+    wins = futures_wins + options_wins
+    if total_trades == 0:
+        profit_percentage = 0
+    else:
+        profit_percentage = (wins / total_trades) * 100
+    
     context = {
-        "strategy": strategy,
-        "trades": trades,
-        "profit": profit,
-        "count": count,
-        "pictures": pictures
+        "setup": setup,
+        "futures_trades": futures_trades,
+        "futures_profits": futures_profits,
+        "futures_pictures": futures_pictures,
+        "options_trades": options_trades,
+        "options_pictures": options_pictures,
+        "total_trades": total_trades,
+        "total_profit": total_profit,
+        "profit_percentage": profit_percentage
     }
     return render(request, 'main/strategy.html', context)
+
+def options(request):
+    if request.method == 'POST':
+        form = CreateOptions(request.POST, user=request.user)
+        if form.is_valid():
+            trade = form.save(commit=False)
+            trade.user = request.user  # Assign the user before saving
+            trade.save()
+            form.save_m2m()
+            return redirect('options')
+    else:
+        form = CreateOptions(user=request.user)
+    return render(request, 'main/options.html', {"form": form})

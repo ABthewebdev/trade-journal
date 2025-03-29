@@ -31,10 +31,6 @@ a:hover {
   justify-content: center;
   gap: 1em;
 }
-.gap_list {
-  display: flex;
-  gap: 1em;
-}
 
 .image {
   border-radius: 0.35em;

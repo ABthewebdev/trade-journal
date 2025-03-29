@@ -11,19 +11,27 @@
         label {
             color: white;
         }
+        .flex {
+            display: flex;
+            flex-direction: column;
+            align-content: center;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
 </head>
 <body id="body">
     {% if user.is_authenticated %}
     <header>
-        <div class="gap_list">
+        <div class="d-flex justify-content-center gap-5">
             <form action="{% url 'logout' %}" method="post">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-secondary">Logout</button>
             </form>
             <a href="/profile">My profile</a>
-            <a href="/trade">Create new trade</a>
+            <a href="/trade">Create new futures</a>
             <a href="/">Home</a>
+            <a href="/options">Create new options</a>
             <a href="/entry">Create entry</a>
             <a href="/exit">Create exit</a>
         </div>

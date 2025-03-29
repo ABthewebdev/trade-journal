@@ -1,5 +1,8 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
-<h1>Home</h1>
+<div class="flex" style="height: 400px; padding: 0 10em;">
+    <h1>{{quote.quote}}</h1>
+    <h2 class="text-right">- {{quote.author}}</h2>
+</div>
 {% endblock content %}
