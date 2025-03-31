@@ -36,13 +36,13 @@ class Trade(models.Model):
     exit_time = models.TimeField()
     picture1 = models.ImageField(upload_to='trade_pictures/', blank=True, default='chart.png')
     picture2 = models.ImageField(upload_to='trade_pictures/', blank=True, default=None)
-    quantity = models.SmallIntegerField(default=1)
+    quantity = models.BigIntegerField()
     other_notes = models.TextField(blank=True, null=True)
 
 class OptionsTrade(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     ticker = models.CharField(max_length=5)
-    strike_price = models.BigIntegerField()
+    strike_price = models.BigIntegerField(default=None)
     call = models.BooleanField()
     put = models.BooleanField()
     stock_price = models.DecimalField(decimal_places=2, max_digits=7)
@@ -60,5 +60,5 @@ class OptionsTrade(models.Model):
     exit_time = models.TimeField()
     picture1 = models.ImageField(upload_to='trade_pictures/', blank=True, null=True, default='chart.png')
     picture2 = models.ImageField(upload_to='trade_pictures/', blank=True, null=True)
-    quantity = models.SmallIntegerField()
+    quantity = models.BigIntegerField()
     other_notes = models.TextField(blank=True, null=True)

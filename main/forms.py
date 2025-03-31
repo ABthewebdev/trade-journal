@@ -33,7 +33,7 @@ class CreateOptions(forms.ModelForm):
     class Meta:
         model = OptionsTrade
         fields = [
-            'user', 'ticker', 'call', 'put', 'stock_price','option_price', 'exit_option_price', 'reasons_entry', 'profit', 'loss', 'p_and_l', 
+            'user', 'ticker', 'call', 'put', 'strike_price', 'stock_price','option_price', 'exit_option_price', 'reasons_entry', 'profit', 'loss', 'p_and_l', 
             'trim1', 'trim2', 'reasons_exit', 'picture1', 'picture2', 'date', 'entry_time', 'exit_time', 'quantity', 'other_notes'
         ]
         exclude = ['user']
