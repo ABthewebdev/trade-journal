@@ -45,7 +45,7 @@
 <h2 class="text-center">Trade dates</h2>
 <div class="d-flex flex-row flex-wrap gap-4">
     {% for date in unique_dates %}
-        <a href="/{{ date|date:'Y-m-d' }}"><h3>{{ date }}</h3></a>
+        <a href="/date/{{ date|date:'Y-m-d' }}"><h3>{{ date }}</h3></a>
     {% endfor %}
 </div>
 {% endblock content %}

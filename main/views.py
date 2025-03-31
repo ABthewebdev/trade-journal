@@ -39,6 +39,7 @@ def profile(request):
     futures_total_win = Decimal(0.00)
     futures_losses = 0
     futures_total_loss = Decimal(0.00)
+    
     # Add Trade.p_and_l to the Entry_Reason profit if it appears in reasons_entry
     for trade in futures_trades:
         if trade.profit:

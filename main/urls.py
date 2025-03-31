@@ -9,5 +9,5 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('setups/<str:setup>/', views.setup, name='strategy'),
     path('options/', views.options, name='options'),
-    path('<str:date_str>/', views.dates, name='dates'),
+    path('date/<str:date_str>/', views.dates, name='dates'),
 ]
