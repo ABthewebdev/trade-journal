@@ -3,6 +3,8 @@ from .models import Trade, Enter_Trade, Exit_Trade, OptionsTrade
 from .forms import CreateFutures, CreateEntry, CreateExit, CreateOptions
 import random
 from decimal import Decimal
+from datetime import datetime
+from django.http import HttpResponseNotFound
 
 def home(request):
     class Quote:
@@ -93,7 +95,12 @@ def dates(request, date_str):  # Rename date to date_str initially
     filtered_futures_trades = futures_trades.filter(date=date_str)
     futures_profit = Decimal(0.00)
     options_profit = Decimal(0.00)
-    date = date_str
+    try:
+        # Parse the date string to ensure it's a valid date
+        date = datetime.strptime(date_str, '%Y-%m-%d').date()
+    except ValueError:
+        # Return a 404 or redirect if the date format is invalid
+        return HttpResponseNotFound("Invalid date format")
     total_trades = filtered_futures_trades.count() + filtered_options_trades.count()
     futures_wins = 0
     futures_losses = Decimal(0.00)
