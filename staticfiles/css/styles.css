@@ -12,32 +12,24 @@ li,
 a,
 label {
   color: white;
+  text-decoration: none;
+  border: none !important;
 }
+.mb-6 {
+  margin-bottom: 6em;
+}
+
 ul,
 li {
   list-style: none;
 }
-.form_ul {
-  display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
+a:hover {
+  opacity: 0.8;
 }
 .create {
   display: flex;
   justify-content: center;
   gap: 1em;
-}
-.gap_list {
-  display: flex;
-  gap: 1em;
-}
-.trades_profile_div {
-  display: flex;
-  flex-wrap: wrap;
-}
-.trades_profile_div div {
-  background-color: #424141;
-  border-radius: 6px;
 }
 
 .image {
