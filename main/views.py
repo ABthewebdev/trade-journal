@@ -46,7 +46,7 @@ def profile(request):
             futures_losses += 1
             futures_total_loss += trade.p_and_l
     futures_p_and_l = futures_total_win - futures_total_loss
-    futures_percentage = (futures_wins / len(futures_trades)) * 100
+    futures_percentage = futures_wins / len(futures_trades) * 100 if len(futures_trades) > 0 else 0
     average_futures_win = futures_total_win / futures_wins if futures_wins > 0 else Decimal("0.00")
     average_futures_loss = futures_total_loss / futures_losses if futures_losses > 0 else Decimal("0.00")
 
@@ -64,7 +64,7 @@ def profile(request):
             options_losses += 1
             options_total_loss += trade.p_and_l
     options_p_and_l = options_total_win - options_total_loss
-    options_percentage = (options_wins / len(options_trades)) * 100
+    options_percentage = options_wins / len(options_trades) * 100 if len(options_trades) > 0 else 0
     average_options_win = options_total_win / options_wins if options_wins > 0 else Decimal("0.00")
     average_options_loss = options_total_loss / options_losses if options_losses > 0 else Decimal("0.00")
 
@@ -74,14 +74,14 @@ def profile(request):
         "Trade": Trade,
         "futures_trades": futures_trades,
         "entry_reasons_profit": entry_reasons_profit,
-        "futures_percentage": futures_percentage,
-        "average_futures_win": average_futures_win,
-        "average_futures_loss": average_futures_loss,
+        "futures_percentage": futures_percentage.__round__(),
+        "average_futures_win": average_futures_win.__round__(),
+        "average_futures_loss": average_futures_loss.__round__(),
         "futures_p_and_l": futures_p_and_l,
-        "options_p_and_l": options_p_and_l,
-        "options_percentage": options_percentage,
-        "average_options_win": average_options_win,
-        "average_options_loss": average_options_loss
+        "options_p_and_l": options_p_and_l.__round__(),
+        "options_percentage": options_percentage.__round__(),
+        "average_options_win": average_options_win.__round__(),
+        "average_options_loss": average_options_loss.__round__()
     }
     return render(request, 'main/profile.html', context)
 
@@ -113,7 +113,10 @@ def dates(request, date_str):  # Rename date to date_str initially
             options_losses += trade.p_and_l
     wins = futures_wins + options_wins
     total_profit = futures_profit +  options_profit - futures_losses - options_losses
-    win_percentage = wins / total_trades
+    if total_trades == 0:
+        profit_percentage = 0.00
+    else:
+        profit_percentage = (wins / total_trades) * 100
 
     context = {
         "filtered_futures_trades": filtered_futures_trades,
@@ -121,7 +124,7 @@ def dates(request, date_str):  # Rename date to date_str initially
         "total_profit": total_profit,
         "date": date,
         "total_trades": total_trades,
-        "win_percentage": win_percentage
+        "profit_percentage": profit_percentage.__round__()
     }
     return render(request, 'main/dates.html', context)
 
@@ -207,6 +210,7 @@ def setup(request, setup):
     total_profit = options_profits + futures_profits - options_losses - futures_losses
     total_trades = futures_count + options_count
     wins = futures_wins + options_wins
+    total_profit
     if total_trades == 0:
         profit_percentage = 0
     else:
@@ -221,7 +225,7 @@ def setup(request, setup):
         "options_pictures": options_pictures,
         "total_trades": total_trades,
         "total_profit": total_profit,
-        "profit_percentage": profit_percentage
+        "profit_percentage": profit_percentage.__round__()
     }
     return render(request, 'main/strategy.html', context)
 
