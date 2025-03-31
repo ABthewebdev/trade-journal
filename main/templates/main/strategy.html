@@ -78,6 +78,11 @@
                 {% endif %}
             </p>
         </div>
+        {% if trade.other_notes != None %}
+            <div>
+                <p>{{trade.other_notes}}</p>
+            </div>
+        {% endif %}
     </div>
     {% endfor %}
 </div>
