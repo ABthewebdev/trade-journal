@@ -121,7 +121,7 @@ def dates(request, date_str):  # Rename date to date_str initially
     wins = futures_wins + options_wins
     total_profit = futures_profit +  options_profit - futures_losses - options_losses
     if total_trades == 0:
-        profit_percentage = 0.00
+        profit_percentage = 0
     else:
         profit_percentage = (wins / total_trades) * 100
 
@@ -217,7 +217,6 @@ def setup(request, setup):
     total_profit = options_profits + futures_profits - options_losses - futures_losses
     total_trades = futures_count + options_count
     wins = futures_wins + options_wins
-    total_profit
     if total_trades == 0:
         profit_percentage = 0
     else:

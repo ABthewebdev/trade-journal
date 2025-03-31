@@ -1,5 +1,7 @@
 {% extends 'main/base.html' %}
 
+{% block title %}Setup {{setup.reason}}{% endblock title %}
+
 {% block content %}
 <div class="text-center mb-6">
     <h1>{{setup.reason}}</h1>
@@ -11,7 +13,13 @@
     <h3>Taken {{total_trades}} trades</h3>
     {% endif %}
     <h3>Profit percentage: {{profit_percentage}}%</h3>
-    <h3>Setup P&L: {{total_profit}}</h3>
+    <h3>
+        {% if total_profit > 0 %}
+            Setup P&L: +{{total_profit}}
+        {% else %}
+            Setup P&L: {{total_profit}}
+        {% endif %}
+    </h3>
 </div>
 <h3 class="text-center">Futures trades</h3>
 <div class="d-flex flex-row">

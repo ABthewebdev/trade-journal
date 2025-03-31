@@ -57,6 +57,6 @@ class OptionsTrade(models.Model):
     date = models.DateField()
     entry_time = models.TimeField()
     exit_time = models.TimeField()
-    picture1 = models.ImageField(upload_to='trade_pictures/', blank=True, null=True, default='chart_UqV2wpr.png')
+    picture1 = models.ImageField(upload_to='trade_pictures/', blank=True, null=True, default='chart.png')
     picture2 = models.ImageField(upload_to='trade_pictures/', blank=True, null=True)
     quantity = models.SmallIntegerField()
