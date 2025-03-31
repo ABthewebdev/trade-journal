@@ -37,6 +37,7 @@ class Trade(models.Model):
     picture1 = models.ImageField(upload_to='trade_pictures/', blank=True, default='chart.png')
     picture2 = models.ImageField(upload_to='trade_pictures/', blank=True, default=None)
     quantity = models.SmallIntegerField(default=1)
+    other_notes = models.TextField(blank=True, null=True)
 
 class OptionsTrade(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -60,3 +61,4 @@ class OptionsTrade(models.Model):
     picture1 = models.ImageField(upload_to='trade_pictures/', blank=True, null=True, default='chart.png')
     picture2 = models.ImageField(upload_to='trade_pictures/', blank=True, null=True)
     quantity = models.SmallIntegerField()
+    other_notes = models.TextField(blank=True, null=True)

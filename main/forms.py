@@ -9,8 +9,8 @@ class CreateFutures(forms.ModelForm):
     class Meta:
         model = Trade
         fields = [
-            'user', 'ticker', 'long', 'short', 'entry_price', 'average_down', 'reasons_entry', 'profit', 'loss', 'p_and_l', 
-            'trim1', 'trim2', 'exit_price', 'reasons_exit', 'picture1', 'picture2', 'date', 'entry_time', 'exit_time', 'quantity'
+            'user', 'ticker', 'long', 'short', 'entry_price', 'average_down', 'reasons_entry', 'profit', 'loss', 'p_and_l', 'trim1',
+            'trim2', 'exit_price', 'reasons_exit', 'picture1', 'picture2', 'date', 'entry_time', 'exit_time', 'quantity', 'other_notes'
         ]
         exclude = ['user']
         widgets = {
@@ -34,7 +34,7 @@ class CreateOptions(forms.ModelForm):
         model = OptionsTrade
         fields = [
             'user', 'ticker', 'call', 'put', 'stock_price','option_price', 'exit_option_price', 'reasons_entry', 'profit', 'loss', 'p_and_l', 
-            'trim1', 'trim2', 'reasons_exit', 'picture1', 'picture2', 'date', 'entry_time', 'exit_time', 'quantity'
+            'trim1', 'trim2', 'reasons_exit', 'picture1', 'picture2', 'date', 'entry_time', 'exit_time', 'quantity', 'other_notes'
         ]
         exclude = ['user']
         widgets = {
