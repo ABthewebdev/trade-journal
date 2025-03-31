@@ -9,14 +9,26 @@
             <h2>Win percentage: {{futures_percentage}}%</h2>
             <h2>Average win: {{average_futures_win}}</h2>
             <h2>Average loss: {{average_futures_loss}}</h2>
-            <h2>Totals: {{futures_p_and_l}}</h2>
+            <h2>
+                {% if futures_p_and_l > 0.00 %}
+                    Totals: +{{futures_p_and_l}}
+                {% elif futures_p_and_l < 0.00 %}
+                    Totals: {{futures_p_and_l}}
+                {% endif %}
+            </h2>
         </div>
         <div>
             <h1>Options P&L</h1>
             <h2>Win percentage: {{options_percentage}}%</h2>
             <h2>Average win: {{average_options_win}}</h2>
             <h2>Average loss: {{average_options_loss}}</h2>
-            <h2>Totals: {{options_p_and_l}}</h2>
+            <h2>
+                {% if options_p_and_l > 0.00 %}
+                    Totals: +{{options_p_and_l}}
+                {% elif futures_p_and_l < 0.00 %}
+                    Totals: {{options_p_and_l}}
+                {% endif %}
+            </h2>
         </div>
     </div>
     <div class="text-center">

@@ -5,7 +5,6 @@ import random
 from decimal import Decimal
 
 def home(request):
-    user = request.user
     class Quote:
         def __init__(self, quote, author):
             self.quote = quote
@@ -68,7 +67,7 @@ def profile(request):
     options_percentage = (options_wins / len(options_trades)) * 100
     average_options_win = options_total_win / options_wins if options_wins > 0 else Decimal("0.00")
     average_options_loss = options_total_loss / options_losses if options_losses > 0 else Decimal("0.00")
-            
+
     context = {
         "strategies": strategies,
         "unique_dates": unique_dates,
@@ -93,12 +92,12 @@ def dates(request, date_str):  # Rename date to date_str initially
     filtered_options_trades = options_trades.filter(date=date_str)
     filtered_futures_trades = futures_trades.filter(date=date_str)
     futures_profit = Decimal(0.00)
-    futures_losses = Decimal(0.00)
     options_profit = Decimal(0.00)
-    options_losses = Decimal(0.00)
     date = date_str
     total_trades = filtered_futures_trades.count() + filtered_options_trades.count()
     futures_wins = 0
+    futures_losses = Decimal(0.00)
+    options_losses = Decimal(0.00)
     options_wins = 0
     for trade in filtered_futures_trades:
         if trade.profit:
@@ -185,9 +184,9 @@ def setup(request, setup):
             if trade.profit:
                 futures_wins += 1
                 futures_profits += trade.p_and_l
-            elif trade.loss:
+            else:
                 futures_losses += trade.p_and_l
-    
+
     # All options trading stuff
     options_profits = Decimal(0.00)
     options_losses = Decimal(0.00)
@@ -204,7 +203,7 @@ def setup(request, setup):
                 options_profits += trade.p_and_l
             elif trade.loss:
                 options_losses += trade.p_and_l
-    
+
     total_profit = options_profits + futures_profits - options_losses - futures_losses
     total_trades = futures_count + options_count
     wins = futures_wins + options_wins
@@ -212,7 +211,7 @@ def setup(request, setup):
         profit_percentage = 0
     else:
         profit_percentage = (wins / total_trades) * 100
-    
+
     context = {
         "setup": setup,
         "futures_trades": futures_trades,
