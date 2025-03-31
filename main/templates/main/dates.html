@@ -116,7 +116,7 @@
                     Bought {{trade.quantity}}
                     {% if trade.call == True %}
                         calls
-                    {% elif trade.pull == True %}
+                    {% elif trade.put == True %}
                         puts
                     {% endif %}
                     at {{trade.option_price}}
