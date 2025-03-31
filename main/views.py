@@ -92,21 +92,28 @@ def dates(request, date_str):  # Rename date to date_str initially
     options_trades = OptionsTrade.objects.filter(user = user)
     filtered_options_trades = options_trades.filter(date=date_str)
     filtered_futures_trades = futures_trades.filter(date=date_str)
-    futures_profit = sum(trade.p_and_l for trade in filtered_futures_trades)
-    options_profit = sum(trade.p_and_l for trade in options_trades)
-    total_profit = futures_profit +  options_profit
+    futures_profit = Decimal(0.00)
+    futures_losses = Decimal(0.00)
+    options_profit = Decimal(0.00)
+    options_losses = Decimal(0.00)
     date = date_str
     total_trades = filtered_futures_trades.count() + filtered_options_trades.count()
-    futures_percentage = Decimal(0.00)
     futures_wins = 0
     options_wins = 0
     for trade in filtered_futures_trades:
         if trade.profit:
             futures_wins += 1
+            futures_profit += trade.p_and_l
+        if trade.loss:
+            futures_losses += trade.p_and_l
     for trade in filtered_options_trades:
         if trade.profit:
             options_wins += 1
+            options_profit += trade.p_and_l
+        if trade.loss:
+            options_losses += trade.p_and_l
     wins = futures_wins + options_wins
+    total_profit = futures_profit +  options_profit - futures_losses - options_losses
     win_percentage = wins / total_trades
 
     context = {
@@ -178,7 +185,7 @@ def setup(request, setup):
             if trade.profit:
                 futures_wins += 1
                 futures_profits += trade.p_and_l
-            else:
+            elif trade.loss:
                 futures_losses += trade.p_and_l
     
     # All options trading stuff
@@ -195,7 +202,7 @@ def setup(request, setup):
             if trade.profit:
                 options_wins += 1
                 options_profits += trade.p_and_l
-            else:
+            elif trade.loss:
                 options_losses += trade.p_and_l
     
     total_profit = options_profits + futures_profits - options_losses - futures_losses
