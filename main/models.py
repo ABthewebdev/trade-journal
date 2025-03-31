@@ -60,4 +60,4 @@ class OptionsTrade(models.Model):
     picture1 = models.ImageField(upload_to='trade_pictures/', blank=True, null=True, default='chart_UqV2wpr.png')
     picture2 = models.ImageField(upload_to='trade_pictures/', blank=True, null=True)
     quantity = models.SmallIntegerField()
-    other_notes = models.TextField()
+    other_notes = models.TextField(blank=True, null=True)
