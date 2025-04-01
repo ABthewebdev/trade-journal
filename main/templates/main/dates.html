@@ -5,6 +5,9 @@
 {% block content %}
 <div class="d-flex flex-column align-items-center mb-6">
     <h2>{{date}}</h2>
+    {% if total_profit > 0 %}
+    <h3>Day's P&L: +{{total_profit}}</h3>
+    {% else %}
     <h3>Day's P&L: {{total_profit}}</h3>
     {% if total_trades == 1 %}
     <h3>Took 1 trade</h3>
