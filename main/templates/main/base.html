@@ -38,10 +38,12 @@
     </header>
     {% block content %}{% endblock content %}
     {% else %}
-    <header>
-        <a href="/register">Register</a>
-        <a href="/login">Login</a>
-    </header>
+    <div class="d-flex align-content-center flex-wrap justify-content-center flex-direction" style="height: 22em;">
+        <div class="card bg-dark" style="padding: 2em;">
+            <span>Register to make an account <a style="text-decoration: underline;" href="/register">here</a></span>
+            <span>Login to your account <a style="text-decoration: underline;" href="/login">here</a></span>
+        </div>
+    </div>
     {% endif %}
     <script src="{% static 'js/main.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
