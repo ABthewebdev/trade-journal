@@ -145,7 +145,7 @@ def trade(request):
             trade.user = request.user  # Assign the user before saving
             trade.save()
             form.save_m2m()  # Save many-to-many fields if any
-            return redirect('trade')  # Redirect to a success page
+            return redirect('profile')  # Redirect to a success page
     else:
         form = CreateFutures(user=request.user)
 
@@ -160,6 +160,7 @@ def entry(request):
             r = form.cleaned_data['reason']
             exit = Enter_Trade(reason = r, user = user)
             exit.save()
+            return redirect('trade')
     else:
         form = CreateEntry()
 
@@ -173,6 +174,7 @@ def exit(request):
             r = form.cleaned_data['reason']
             exit = Exit_Trade(reason = r, user = user)
             exit.save()
+            return redirect('trade')
     else:
         form = CreateEntry()
 
@@ -244,7 +246,7 @@ def options(request):
             trade.user = request.user  # Assign the user before saving
             trade.save()
             form.save_m2m()
-            return redirect('options')
+            return redirect('profile')
     else:
         form = CreateOptions(user=request.user)
     return render(request, 'main/options.html', {"form": form})
