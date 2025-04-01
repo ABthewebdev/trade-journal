@@ -6,7 +6,7 @@
 {% block content %}
 <h4 class="text-center">Hold down ctrl/cmd to select more than one reason</h4>
 <div class="d-flex justify-content-center">
-    <form action="" method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <ul class="list-group d-flex w-100">
             {{form|crispy}}
