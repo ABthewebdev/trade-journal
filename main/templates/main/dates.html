@@ -9,6 +9,7 @@
     <h3>Day's P&L: +{{total_profit}}</h3>
     {% else %}
     <h3>Day's P&L: {{total_profit}}</h3>
+    {% endif %}
     {% if total_trades == 1 %}
     <h3>Took 1 trade</h3>
     {% else %}
@@ -79,8 +80,11 @@
                     {% endfor %}
                 </ol>
             </div>
-            <div>
-            </div>
+            {% if trade.other_notes != None %}
+                <div>
+                    <p>{{trade.other_notes}}</p>
+                </div>
+            {% endif %}
         </div>
     </div>
     {% endfor %}

@@ -241,7 +241,7 @@ def setup(request, setup):
 
 def options(request):
     if request.method == 'POST':
-        form = CreateOptions(request.POST, user=request.user)
+        form = CreateOptions(request.POST, request.FILES, user=request.user)
         if form.is_valid():
             trade = form.save(commit=False)
             trade.user = request.user  # Assign the user before saving
