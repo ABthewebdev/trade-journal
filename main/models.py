@@ -34,8 +34,8 @@ class Trade(models.Model):
     date = models.DateField()
     entry_time = models.TimeField()
     exit_time = models.TimeField()
-    picture1 = models.ImageField(upload_to='media/', blank=True, null=True, default='chart.png')
-    picture2 = models.ImageField(upload_to='media/', blank=True, default=None)
+    picture1 = models.ImageField(upload_to='trading_pictures/', blank=True, null=True, default='chart.png')
+    picture2 = models.ImageField(upload_to='trading_pictures/', blank=True, null=True, default=None)
     quantity = models.BigIntegerField()
     other_notes = models.TextField(blank=True, null=True)
 
