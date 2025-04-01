@@ -139,11 +139,12 @@ def dates(request, date_str):  # Rename date to date_str initially
 
 def trade(request):
     if request.method == 'POST':
-        form = CreateFutures(request.POST, user=request.user)
+        form = CreateFutures(request.POST, request.FILES, user=request.user)
         if form.is_valid():
             trade = form.save(commit=False)
             trade.user = request.user  # Assign the user before saving
             trade.save()
+            print("Trade saved:", trade.picture1)
             form.save_m2m()  # Save many-to-many fields if any
             return redirect('profile')  # Redirect to a success page
     else:
