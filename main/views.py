@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
 from .models import Trade, Enter_Trade, Exit_Trade, OptionsTrade
 from .forms import CreateFutures, CreateEntry, CreateExit, CreateOptions
-import random
+import random, requests
 from decimal import Decimal
 from datetime import datetime
 from django.http import HttpResponseNotFound
 
 def home(request):
+    api = requests.get('https://jsonplaceholder.typicode.com/todos/1').json()
     class Quote:
         def __init__(self, quote, author):
             self.quote = quote
@@ -25,7 +26,11 @@ def home(request):
         Quote("The best way to predict the future is to manipulate it", "JPow"),
         Quote("Risk comes from not knowing what you're doing, which is why we just HODL", "Me holding my NVDL shares")
     ]
-    return render(request, 'main/home.html', {"quote": quotes[random.randint(0, len(quotes) - 1)]})
+    context = {
+        "api": api,
+        "quote": quotes[random.randint(0, len(quotes) - 1)]
+    }
+    return render(request, 'main/home.html', context)
 
 def profile(request):
     user = request.user
@@ -251,3 +256,6 @@ def options(request):
     else:
         form = CreateOptions(user=request.user)
     return render(request, 'main/options.html', {"form": form})
+
+def charts(request):
+    return render(request, 'main/charts.html', {})

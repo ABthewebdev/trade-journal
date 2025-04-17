@@ -7,6 +7,7 @@ urlpatterns = [
     path('exit/', views.exit, name='exit'),
     path('trade/', views.trade, name='trade'),
     path('profile/', views.profile, name='profile'),
+    path('charts/', views.charts, name='charts'),
     path('setups/<str:setup>/', views.setup, name='strategy'),
     path('options/', views.options, name='options'),
     path('date/<str:date_str>/', views.dates, name='dates'),
