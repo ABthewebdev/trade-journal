@@ -1,2 +1,2 @@
 # trade-journal
-meow
+meow mix
